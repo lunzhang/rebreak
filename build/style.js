@@ -112,7 +112,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "html, body, #app {\n  height: 100%;\n  margin: 0px;\n  position: relative; }\n\n#main {\n  position: relative;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center; }\n  #main input {\n    text-align: center;\n    font-size: 20px;\n    width: 150px; }\n  #main .btn {\n    padding: 8px;\n    width: 80px;\n    border-radius: 10px;\n    border: 1px solid black; }\n\nh1, h2, h3, h4, h5, h6 {\n  display: inline-block;\n  margin: 0px; }\n", ""]);
 
 // exports
 

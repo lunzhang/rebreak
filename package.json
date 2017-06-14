@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-template",
+  "name": "rebreak",
   "version": "1.0.0",
-  "description": "react redux starting template",
+  "description": "reminds you to take a break every now and then",
   "main": "src/app.js",
   "scripts": {
     "dev": "webpack-dev-server --progress",

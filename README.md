@@ -1,9 +1,2 @@
-React-Redux starting template built with webpack and babel
-
-Getting Started:
-
-1. git clone repository
-2. cd into project directory
-3. '''npm install'''
-4. '''npm run dev'''
-5. Navagiate to localhost:8080
+Often I would be on the computer for hours and forget to take a break.
+Rebreak reminds you to take a break, so you don't have to. 
