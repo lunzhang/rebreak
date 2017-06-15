@@ -3,17 +3,19 @@ export const STOP_TIMER = 'STOP_TIMER';
 export const UPDATE_TIME_REMAINING = 'UPDATE_TIME_REMAINING';
 export const UPDATE_TIME_INTERVAL = 'UPDATE_TIME_INTERVAL';
 export const RESET_TIMER = 'RESET_TIMER';
-
+export const UPDATE_LOGS = 'UPDATE_LOGS';
 
 export function startTimer(){
     return {
-        type:START_TIMER
+        type:START_TIMER,
+        log:"Timer started at " + (new Date).toLocaleTimeString([],{hour: '2-digit', minute:'2-digit'})
     };
 };
 
 export function stopTimer(){
     return {
-        type:STOP_TIMER
+        type:STOP_TIMER,
+        log:"Timer stopped at " + (new Date).toLocaleTimeString([],{hour: '2-digit', minute:'2-digit'})
     };
 };
 
@@ -32,5 +34,12 @@ export function updateTimeRemaining(timeRemaining){
 export function resetTimer(){
     return {
         type:RESET_TIMER
+    };
+};
+
+export function updateLogs(log){
+    return {
+      type:UPDATE_LOGS,
+      log
     };
 };

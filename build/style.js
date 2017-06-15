@@ -112,7 +112,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "html, body, #app {\n  height: 100%;\n  margin: 0px;\n  position: relative; }\n\n#main {\n  position: relative;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center; }\n  #main input {\n    text-align: center;\n    font-size: 20px;\n    width: 150px; }\n  #main .btn {\n    padding: 8px;\n    width: 80px;\n    border-radius: 10px;\n    border: 1px solid black; }\n\nh1, h2, h3, h4, h5, h6 {\n  display: inline-block;\n  margin: 0px; }\n", ""]);
+exports.push([module.i, "html, body, #app {\n  height: 100%;\n  margin: 0px;\n  position: relative; }\n\n#main {\n  position: relative;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center; }\n  #main input {\n    text-align: center;\n    font-size: 20px;\n    width: 150px; }\n  #main .btn {\n    padding: 8px;\n    width: 80px;\n    border-radius: 10px;\n    border: 1px solid black;\n    outline: none; }\n  #main #log-box {\n    display: inline-block;\n    position: absolute;\n    margin: 0px 50px;\n    width: 380px;\n    border: 1px solid black; }\n    #main #log-box h2 {\n      width: 100%;\n      border-bottom: 1px solid black;\n      margin-bottom: 5px;\n      padding: 5px 0px; }\n    #main #log-box #log-wrapper {\n      height: 200px;\n      overflow-x: hidden;\n      overflow-y: auto; }\n    #main #log-box .log {\n      padding: 5px 10px;\n      border-bottom: 1px solid black; }\n      #main #log-box .log:nth-child(n+7):last-child {\n        border-bottom: none; }\n\nh1, h2, h3, h4, h5, h6 {\n  display: inline-block;\n  margin: 0px; }\n", ""]);
 
 // exports
 

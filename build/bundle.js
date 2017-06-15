@@ -8356,21 +8356,25 @@ exports.stopTimer = stopTimer;
 exports.updateTimeInterval = updateTimeInterval;
 exports.updateTimeRemaining = updateTimeRemaining;
 exports.resetTimer = resetTimer;
+exports.updateLogs = updateLogs;
 var START_TIMER = exports.START_TIMER = 'START_TIMER';
 var STOP_TIMER = exports.STOP_TIMER = 'STOP_TIMER';
 var UPDATE_TIME_REMAINING = exports.UPDATE_TIME_REMAINING = 'UPDATE_TIME_REMAINING';
 var UPDATE_TIME_INTERVAL = exports.UPDATE_TIME_INTERVAL = 'UPDATE_TIME_INTERVAL';
 var RESET_TIMER = exports.RESET_TIMER = 'RESET_TIMER';
+var UPDATE_LOGS = exports.UPDATE_LOGS = 'UPDATE_LOGS';
 
 function startTimer() {
     return {
-        type: START_TIMER
+        type: START_TIMER,
+        log: "Timer started at " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 };
 
 function stopTimer() {
     return {
-        type: STOP_TIMER
+        type: STOP_TIMER,
+        log: "Timer stopped at " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 };
 
@@ -8389,6 +8393,13 @@ function updateTimeRemaining(timeRemaining) {
 function resetTimer() {
     return {
         type: RESET_TIMER
+    };
+};
+
+function updateLogs(log) {
+    return {
+        type: UPDATE_LOGS,
+        log: log
     };
 };
 
@@ -12741,6 +12752,7 @@ var Main = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
     _this.timer;
+    _this.breakTime = new Date();
     _this.updateTimeInterval = _this.updateTimeInterval.bind(_this);
     _this.startTimer = _this.startTimer.bind(_this);
     _this.stopTimer = _this.stopTimer.bind(_this);
@@ -12756,45 +12768,71 @@ var Main = function (_Component) {
         { id: 'main' },
         _react2.default.createElement(
           'div',
-          null,
+          { style: { display: 'inline-block' } },
           _react2.default.createElement(
-            'span',
-            { style: { paddingRight: '10px' } },
-            ' Break Interval (minutes) : '
-          ),
-          _react2.default.createElement('input', { value: this.props.state.timeInterval / 60, onChange: this.updateTimeInterval,
-            type: 'number', maxLength: '200' })
-        ),
-        _react2.default.createElement(
-          'div',
-          { style: { padding: '25px 0px 10px 0px' } },
-          this.props.state.inProgress ? _react2.default.createElement(
-            'button',
-            { className: 'btn', onClick: this.stopTimer },
-            'Stop'
-          ) : _react2.default.createElement(
-            'button',
-            { className: 'btn', onClick: this.startTimer },
-            'Start'
+            'div',
+            null,
+            _react2.default.createElement(
+              'span',
+              { style: { paddingRight: '10px' } },
+              ' Break Interval (minutes) : '
+            ),
+            _react2.default.createElement('input', { value: this.props.state.timeInterval / 60, onChange: this.updateTimeInterval, type: 'number' })
           ),
           _react2.default.createElement(
-            'button',
-            { className: 'btn', onClick: this.resetTimer, style: { marginLeft: '50px' } },
-            'Reset'
+            'div',
+            { style: { padding: '25px 0px 10px 0px' } },
+            this.props.state.inProgress ? _react2.default.createElement(
+              'button',
+              { className: 'btn', onClick: this.stopTimer, style: { backgroundColor: '#F44336',
+                  color: 'white', border: '1px solid #D32F2F' } },
+              'Stop'
+            ) : _react2.default.createElement(
+              'button',
+              { className: 'btn', onClick: this.startTimer, style: { backgroundColor: '#2196F3',
+                  color: 'white', border: '1px solid #1976D2' } },
+              'Start'
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'btn', onClick: this.resetTimer, style: { marginLeft: '50px',
+                  backgroundColor: '#4CAF50', color: 'white', border: '1px solid #388E3C' } },
+              'Reset'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'span',
+              { style: { paddingRight: '10px' } },
+              'Time until next break :'
+            ),
+            _react2.default.createElement(
+              'h1',
+              { style: { width: '250px' } },
+              this.parseTime(this.props.state.timeRemaining)
+            )
           )
         ),
         _react2.default.createElement(
           'div',
-          null,
+          { id: 'log-box' },
           _react2.default.createElement(
-            'span',
-            { style: { paddingRight: '10px' } },
-            'Time until next break :'
+            'h2',
+            null,
+            'Logs'
           ),
           _react2.default.createElement(
-            'h1',
-            { style: { width: '100px' } },
-            this.parseTime(this.props.state.timeRemaining)
+            'div',
+            { id: 'log-wrapper' },
+            this.props.state.logs.map(function (log, i) {
+              return _react2.default.createElement(
+                'div',
+                { className: 'log', key: i },
+                log
+              );
+            })
           )
         )
       );
@@ -12802,7 +12840,10 @@ var Main = function (_Component) {
   }, {
     key: 'updateTimeInterval',
     value: function updateTimeInterval(e) {
-      this.props.dispatch(actions.updateTimeInterval(parseInt(e.currentTarget.value) * 60));
+      var value = parseInt(e.currentTarget.value);
+      if (e.currentTarget.value.length < 4 && e.currentTarget.value.length > 0 && Number.isInteger(value) && value > 0) {
+        this.props.dispatch(actions.updateTimeInterval(value * 60));
+      }
     }
   }, {
     key: 'startTimer',
@@ -12812,7 +12853,11 @@ var Main = function (_Component) {
       this.props.dispatch(actions.startTimer());
       this.timer = setInterval(function () {
         if (_this2.props.state.timeRemaining <= 0) {
-          window.alert('TAKE A BREAK!');
+          _this2.breakTime = new Date();
+          window.alert('Time to take a break!');
+          var timeNow = new Date();
+          var breakTime = (timeNow.getTime() - _this2.breakTime.getTime()) / 1000;
+          _this2.props.dispatch(actions.updateLogs("Break from " + _this2.breakTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " to " + timeNow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " for " + _this2.parseTime(breakTime)));
           _this2.resetTimer();
         } else {
           _this2.props.dispatch(actions.updateTimeRemaining(_this2.props.state.timeRemaining - 1));
@@ -12834,13 +12879,13 @@ var Main = function (_Component) {
     key: 'parseTime',
     value: function parseTime(time) {
       var minutes = Math.floor(time / 60);
-      var seconds = time % 60;
+      var seconds = parseInt(time % 60);
 
       if (seconds < 10) {
         seconds = "0" + seconds;
       }
 
-      return minutes + ':' + seconds;
+      return minutes + ' mins ' + seconds + ' secs';
     }
   }]);
 
@@ -13075,9 +13120,11 @@ var actions = _interopRequireWildcard(_actions);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var initalState = {
+  breakCount: 0,
   inProgress: false,
-  timeInterval: 600,
-  timeRemaining: 600
+  timeInterval: 1200,
+  timeRemaining: 1200,
+  logs: []
 };
 
 function appReducer() {
@@ -13087,9 +13134,14 @@ function appReducer() {
 
   switch (action.type) {
     case actions.START_TIMER:
-      return Object.assign({}, state, { inProgress: true });
+      return Object.assign({}, state, {
+        inProgress: true,
+        logs: state.logs.concat(action.log)
+      });
     case actions.STOP_TIMER:
-      return Object.assign({}, state, { inProgress: false });
+      return Object.assign({}, state, {
+        inProgress: false,
+        logs: state.logs.concat(action.log) });
     case actions.UPDATE_TIME_INTERVAL:
       if (state.inProgress) {
         return Object.assign({}, state, { timeInterval: action.timeInterval });
@@ -13098,7 +13150,13 @@ function appReducer() {
     case actions.UPDATE_TIME_REMAINING:
       return Object.assign({}, state, { timeRemaining: action.timeRemaining });
     case actions.RESET_TIMER:
-      return Object.assign({}, state, { timeRemaining: initalState.timeRemaining });
+      return Object.assign({}, state, {
+        timeRemaining: state.timeInterval
+      });
+    case actions.UPDATE_LOGS:
+      return Object.assign({}, state, {
+        logs: state.logs.concat(action.log)
+      });
   }
 
   return state;

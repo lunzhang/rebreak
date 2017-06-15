@@ -20,6 +20,34 @@ html,body,#app{
     width: 80px;
     border-radius: 10px;
     border: 1px solid black;
+    outline: none;
+  }
+  #log-box{
+    display:inline-block;
+    position:absolute;
+    margin:0px 50px;
+    width:380px;
+    border:1px solid black;
+    h2{
+      width: 100%;
+      border-bottom: 1px solid black;
+      margin-bottom: 5px;
+      padding: 5px 0px;
+    }
+    #log-wrapper{
+      height: 200px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    .log{
+      padding:5px 10px;
+      border-bottom: 1px solid black;
+      &:nth-child(n+7){
+        &:last-child{
+          border-bottom: none;
+        }
+      }
+    }
   }
 }
 
