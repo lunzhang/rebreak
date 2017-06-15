@@ -7,7 +7,7 @@ html,body,#app{
 #main{
   position: relative;
   top:50%;
-  left:50%;
+  left:35%;
   transform: translate(-50%,-50%);
   text-align: center;
   input{
@@ -22,12 +22,17 @@ html,body,#app{
     border: 1px solid black;
     outline: none;
   }
+  #timer-box{
+    display: inline-block;
+  }
   #log-box{
     display:inline-block;
     position:absolute;
-    margin:0px 50px;
+    margin: 50px 50px;
+    top: -100px;
     width:380px;
     border:1px solid black;
+    border-radius: 10px;
     h2{
       width: 100%;
       border-bottom: 1px solid black;
@@ -35,19 +40,24 @@ html,body,#app{
       padding: 5px 0px;
     }
     #log-wrapper{
-      height: 200px;
+      height: 250px;
       overflow-x: hidden;
       overflow-y: auto;
     }
     .log{
       padding:5px 10px;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid #c3b9b9;
       &:nth-child(n+7){
         &:last-child{
           border-bottom: none;
         }
       }
     }
+  }
+}
+@media (max-width:768px){
+  #main{
+    left:50%;
   }
 }
 

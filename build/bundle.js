@@ -12768,7 +12768,7 @@ var Main = function (_Component) {
         { id: 'main' },
         _react2.default.createElement(
           'div',
-          { style: { display: 'inline-block' } },
+          { id: 'timer-box' },
           _react2.default.createElement(
             'div',
             null,

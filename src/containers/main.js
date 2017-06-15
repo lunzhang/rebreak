@@ -23,7 +23,7 @@ class Main extends Component{
   render(){
     return(
       <div id="main">
-        <div style={{display:'inline-block'}}>
+        <div id="timer-box">
           <div>
             <span style={{paddingRight:'10px'}}> Break Interval (minutes) : </span>
             <input value={this.props.state.timeInterval/60} onChange={this.updateTimeInterval} type="number" />
