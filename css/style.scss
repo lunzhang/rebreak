@@ -55,13 +55,21 @@ html,body,#app{
     }
   }
 }
-@media (max-width:768px){
-  #main{
-    left:50%;
-  }
-}
 
 h1,h2,h3,h4,h5,h6{
   display: inline-block;
   margin:0px;
+}
+
+@media (max-width:768px){
+  #main{
+    left:0px;
+    top:50px;
+    transform:none;
+    #log-box{
+      position: relative;
+      top:0px;
+      width:290px;
+    }
+  }
 }
