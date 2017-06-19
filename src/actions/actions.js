@@ -4,6 +4,7 @@ export const UPDATE_TIME_REMAINING = 'UPDATE_TIME_REMAINING';
 export const UPDATE_TIME_INTERVAL = 'UPDATE_TIME_INTERVAL';
 export const RESET_TIMER = 'RESET_TIMER';
 export const UPDATE_LOGS = 'UPDATE_LOGS';
+export const TAKE_BREAK = 'TAKE_BREAK';
 
 export function startTimer(){
     return {
@@ -41,5 +42,12 @@ export function updateLogs(log){
     return {
       type:UPDATE_LOGS,
       log
+    };
+};
+
+export function takeBreak(log){
+    return {
+        type:TAKE_BREAK,
+        log
     };
 };

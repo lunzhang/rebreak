@@ -70,6 +70,9 @@ class Main extends Component{
               })
             }
           </div>
+          <h5 style={{position:'relative',top:'25px'}}>
+            Total Breaks : {this.props.state.breakCount}
+          </h5>
         </div>
       </div>
     );
@@ -90,8 +93,8 @@ class Main extends Component{
           this.breakTime = new Date();
           window.alert('Time to take a break!');
           let timeNow = new Date();
-          let breakTime = (timeNow.getTime() - this.breakTime.getTime())/1000
-          this.props.dispatch(actions.updateLogs("Break from " + this.breakTime.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit'}) +
+          let breakTime = (timeNow.getTime() - this.breakTime.getTime())/1000;
+          this.props.dispatch(actions.takeBreak("Break from " + this.breakTime.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit'}) +
           " to " + timeNow.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit'}) +" for " + this.parseTime(breakTime) ));
           this.resetTimer();
       }

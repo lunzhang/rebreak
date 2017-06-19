@@ -35,6 +35,11 @@ function appReducer(state=initalState,action){
         return Object.assign({},state,{
           logs:state.logs.concat(action.log)
         });
+      case actions.TAKE_BREAK:
+        return Object.assign({},state,{
+          breakCount:state.breakCount+1,
+          logs:state.logs.concat(action.log)
+        });
   }
 
   return state;

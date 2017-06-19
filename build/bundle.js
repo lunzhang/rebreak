@@ -8357,12 +8357,14 @@ exports.updateTimeInterval = updateTimeInterval;
 exports.updateTimeRemaining = updateTimeRemaining;
 exports.resetTimer = resetTimer;
 exports.updateLogs = updateLogs;
+exports.takeBreak = takeBreak;
 var START_TIMER = exports.START_TIMER = 'START_TIMER';
 var STOP_TIMER = exports.STOP_TIMER = 'STOP_TIMER';
 var UPDATE_TIME_REMAINING = exports.UPDATE_TIME_REMAINING = 'UPDATE_TIME_REMAINING';
 var UPDATE_TIME_INTERVAL = exports.UPDATE_TIME_INTERVAL = 'UPDATE_TIME_INTERVAL';
 var RESET_TIMER = exports.RESET_TIMER = 'RESET_TIMER';
 var UPDATE_LOGS = exports.UPDATE_LOGS = 'UPDATE_LOGS';
+var TAKE_BREAK = exports.TAKE_BREAK = 'TAKE_BREAK';
 
 function startTimer() {
     return {
@@ -8399,6 +8401,13 @@ function resetTimer() {
 function updateLogs(log) {
     return {
         type: UPDATE_LOGS,
+        log: log
+    };
+};
+
+function takeBreak(log) {
+    return {
+        type: TAKE_BREAK,
         log: log
     };
 };
@@ -12833,6 +12842,12 @@ var Main = function (_Component) {
                 log
               );
             })
+          ),
+          _react2.default.createElement(
+            'h5',
+            { style: { position: 'relative', top: '25px' } },
+            'Total Breaks : ',
+            this.props.state.breakCount
           )
         )
       );
@@ -12857,7 +12872,7 @@ var Main = function (_Component) {
           window.alert('Time to take a break!');
           var timeNow = new Date();
           var breakTime = (timeNow.getTime() - _this2.breakTime.getTime()) / 1000;
-          _this2.props.dispatch(actions.updateLogs("Break from " + _this2.breakTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " to " + timeNow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " for " + _this2.parseTime(breakTime)));
+          _this2.props.dispatch(actions.takeBreak("Break from " + _this2.breakTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " to " + timeNow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " for " + _this2.parseTime(breakTime)));
           _this2.resetTimer();
         } else {
           _this2.props.dispatch(actions.updateTimeRemaining(_this2.props.state.timeRemaining - 1));
@@ -13155,6 +13170,11 @@ function appReducer() {
       });
     case actions.UPDATE_LOGS:
       return Object.assign({}, state, {
+        logs: state.logs.concat(action.log)
+      });
+    case actions.TAKE_BREAK:
+      return Object.assign({}, state, {
+        breakCount: state.breakCount + 1,
         logs: state.logs.concat(action.log)
       });
   }
